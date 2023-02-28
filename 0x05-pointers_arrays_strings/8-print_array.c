@@ -1,32 +1,28 @@
 #include "main.h"
+#include <stdio.h>
 
 /**
- * rot13 - Entry point
- * ONE if, TWO loops only...
- * @n: input
- * Return: decrypted string
+ * print_array - print `n` elements of an array of integers
+ * @a: int type array pointer
+ * @n: int type integer
+ * Description: Numbers must be separated by comma and space.
+ * Numbers should be displayed in the same order they are stored in array.
+ * You can only use _putchar to print.
  */
-char *rot13(char *n)
-{
-	int x, rot_c = 13, i = 0;
-	char toswap[] = {'A', 'N', 'a', 'n', 'B', 'O', 'b', 'o', 'C', 'P',
-		'c', 'p', 'D', 'Q', 'd', 'q', 'E', 'R', 'e', 'r', 'F', 'S', 'f',
-		's', 'G', 'T', 'g', 't', 'H', 'U', 'h', 'u', 'I', 'V', 'i', 'v',
-		'J', 'W', 'j', 'w', 'K', 'X', 'k', 'x', 'L', 'Y', 'l', 'y', 'M',
-		'Z', 'm', 'z'};
 
-	while (n[i] != '\0')
+void print_array(int *a, int n)
+{
+	int i;
+
+	i = 0;
+	for (n--; n >= 0; n--, i++)
 	{
-		for (x = 0; x <= 51; x++)
+		printf("%d", a[i]);
+		if (n > 0)
 		{
-			if (n[i] == toswap[x])
-			{
-				n[i] = n[i] + rot_c;
-				x = 51;
-			}
-			rot_c = rot_c * -1;
+			printf(", ");
 		}
-		i++;
 	}
-	return (n);
+	printf("\n");
 }
+

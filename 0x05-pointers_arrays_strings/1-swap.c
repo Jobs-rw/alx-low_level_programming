@@ -1,26 +1,16 @@
 #include "main.h"
 
 /**
- * _strncat - a function that concatenates two strings
- * @dest: copy to
- * @src: copy from
- * @n: input of max bytes to be used
- * Return: Always 0 (Success)
+ * swap_int - swap the values of two integers
+ * @a: int pointer type
+ * @b: int pointer type
  */
-char *_strncat(char *dest, char *src, int n)
+
+void swap_int(int *a, int *b)
 {
-	int i, co;
+	int c;
 
-	for (i = 0; dest[i] != '\0'; i++)
-	{
-	}
-
-	for (co = 0; co < n; co++)
-	{
-		dest[i + co] = src[co];
-		if (src[co] == '\0')
-			co = n;
-	}
-
-	return (dest);
+	c = *a;
+	*a = *b;
+	*b = c;
 }
