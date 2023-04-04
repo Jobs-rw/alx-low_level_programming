@@ -50,7 +50,6 @@ size_t looped_listint_count(listint_t *head)
 
 	return (0);
 }
-
 /**
  * free_listint_safe - Frees a listint_t list safely (ie.
  *                     can free lists containing loops)
@@ -94,4 +93,3 @@ size_t free_listint_safe(listint_t **h)
 
 	return (nodes);
 }
-dad
