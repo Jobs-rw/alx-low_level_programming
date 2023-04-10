@@ -9,17 +9,25 @@
  *         Otherwise - the converted number.
  */
 
-unsigned int binary_to_uint(const char *b) {
-    unsigned int num = 0;
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
 
+unsigned int binary_to_uint(const char *b)
+{
     if (b == NULL) {
         return 0;
     }
 
-    for (int i = 0; b[i] != '\0'; i++) {
-        if (b[i] == '0' || b[i] == '1') {
-            num = num << 1;
-            num += b[i] - '0';
+    int len = strlen(b);
+    unsigned int num = 0;
+
+    for (int i = 0; i < len; i++) {
+        if (b[i] == '0') {
+            num += 0;
+        } else if (b[i] == '1') {
+            num += pow(2, len - i - 1);
         } else {
             return 0;
         }
