@@ -1,3 +1,4 @@
+#include "main.h"
 #include <elf.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -18,8 +19,8 @@ void print_entry(unsigned long int e_entry, unsigned char *e_ident);
 void close_elf(int elf);
 
 /**
- * check_elf - findout  if a file is an ELF file.
- * @e_ident: pointing to an array containing the ELF magic numbers.
+ * check_elf - Checks if a file is an ELF file.
+ * @e_ident: A pointer to an array containing the ELF magic numbers.
  *
  * Description: If the file is not an ELF file - exit code 98.
  */
@@ -221,9 +222,9 @@ void print_type(unsigned int e_type, unsigned char *e_ident)
 }
 
 /**
- * print_entry - Prints the entry point of header.
+ * print_entry - diplays the entry point of an ELF header.
  * @e_entry: The address of the ELF entry point.
- * @e_ident: pointing to an array containing the ELF class.
+ * @e_ident: A pointer to an array containing the ELF class.
  */
 void print_entry(unsigned long int e_entry, unsigned char *e_ident)
 {
@@ -243,6 +244,12 @@ void print_entry(unsigned long int e_entry, unsigned char *e_ident)
 		printf("%#lx\n", e_entry);
 }
 
+/**
+ * close_elf - Closes an ELF file.
+ * @elf: The file descriptor of the ELF file.
+ *
+ * Description: once a file cannot be closed - exit code 98.
+ */
 void close_elf(int elf)
 {
 	if (close(elf) == -1)
@@ -252,6 +259,18 @@ void close_elf(int elf)
 		exit(98);
 	}
 }
+
+/**
+ * main - Displaying all information contained in the
+ *        ELF at the start of an ELF file.
+ * @argc: The number of arguments supplied to the program.
+ * @argv: array of pointers to the arguments.
+ *
+ * Return: 0 on success.
+ *
+ * Description: If the file is not an ELF File or
+ *              the function fails - exit code 98.
+ */
 int main(int __attribute__((__unused__)) argc, char *argv[])
 {
 	Elf64_Ehdr *header;
