@@ -1,4 +1,5 @@
 #include "main.h"
+#include <stddef.h>
 unsigned int binary_to_uint(const char *b) {
     unsigned int result = 0;
     int i;
@@ -9,10 +10,10 @@ unsigned int binary_to_uint(const char *b) {
 
     for (i = 0; b[i] != '\0'; i++) {
         if (b[i] == '0') {
-            result <<= 1; // equivalent to result = result * 2
+            result <<= 1;
         } else if (b[i] == '1') {
             result <<= 1;
-            result |= 1; // equivalent to result = result * 2 + 1
+            result |= 1;
         } else {
             return 0;
         }
