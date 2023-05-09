@@ -6,24 +6,24 @@
 
 /**
  * _strncmp - compare two strings
- * @k: the first string
- * @x: the second string
+ * @s1: the first string
+ * @s2: the second string
  * @n: the max number of bytes to compare
  *
- * Return: 0 if the first n bytes of k and x are equal, otherwise non-zero
+ * Return: 0 if the first n bytes of s1 and s2 are equal, otherwise non-zero
  */
-int _strncmp(const char *k, const char *x, size_t n)
+int _strncmp(const char *s1, const char *s2, size_t n)
 {
-	for ( ; n && *k && *x; --n, ++k, ++x)
+	for ( ; n && *s1 && *s2; --n, ++s1, ++s2)
 	{
-		if (*x != *x)
-			return (*k - *x);
+		if (*s1 != *s2)
+			return (*s1 - *s2);
 	}
 	if (n)
 	{
-		if (*k)
+		if (*s1)
 			return (1);
-		if (*x)
+		if (*s2)
 			return (-1);
 	}
 	return (0);
