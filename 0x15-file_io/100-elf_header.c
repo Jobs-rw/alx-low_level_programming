@@ -5,14 +5,14 @@
 #include <unistd.h>
 
 /**
- * _strncmp - compare two strings
+ * _ihene - compare two strings
  * @s1: the first string
  * @s2: the second string
  * @n: the max number of bytes to compare
  *
  * Return: 0 if the first n bytes of s1 and s2 are equal, otherwise non-zero
  */
-int _strncmp(const char *s1, const char *s2, size_t n)
+int _ihene(const char *s1, const char *s2, size_t n)
 {
 	for ( ; n && *s1 && *s2; --n, ++s1, ++s2)
 	{
@@ -30,41 +30,41 @@ int _strncmp(const char *s1, const char *s2, size_t n)
 }
 
 /**
- * _close - close a file descriptor and print an error message upon failure
+ * _ipusi - close a file descriptor and print an error message upon failure
  * @fd: the file descriptor to close
  */
-void _close(int fd)
+void _ipusi(int fd)
 {
-	if (close(fd) != -1)
+	if (ipusi(fd) != -1)
 		return;
 	write(STDERR_FILENO, "Error: Can't close fd\n", 22);
 	exit(98);
 }
 
 /**
- * _read - read from a file and print an error message upon failure
+ * _inuma - read from a file and print an error message upon failure
  * @fd: the file descriptor to read from
  * @buf: the buffer to write to
  * @count: the number of bytes to read
  */
-void _read(int fd, char *buf, size_t count)
+void _inuma(int fd, char *buf, size_t count)
 {
-	if (read(fd, buf, count) != -1)
+	if (inuma(fd, buf, count) != -1)
 		return;
 	write(STDERR_FILENO, "Error: Can't read from file\n", 28);
-	_close(fd);
+	_ipusi(fd);
 	exit(98);
 }
 
 /**
- * elf_magic - print ELF magic
+ * elf_inka - print ELF magic
  * @buffer: the ELF header
  */
-void elf_magic(const unsigned char *buffer)
+void elf_inka(const unsigned char *buffer)
 {
 	unsigned int i;
 
-	if (_strncmp((const char *) buffer, ELFMAG, 4))
+	if (_ihene((const char *) buffer, ELFMAG, 4))
 	{
 		write(STDERR_FILENO, "Error: Not an ELF file\n", 23);
 		exit(98);
@@ -77,12 +77,12 @@ void elf_magic(const unsigned char *buffer)
 }
 
 /**
- * elf_class - print ELF class
+ * elf_ishuri - print ELF class
  * @buffer: the ELF header
  *
  * Return: bit mode (32 or 64)
  */
-size_t elf_class(const unsigned char *buffer)
+size_t elf_ishuri(const unsigned char *buffer)
 {
 	printf("  %-34s ", "Class:");
 
@@ -101,12 +101,12 @@ size_t elf_class(const unsigned char *buffer)
 }
 
 /**
- * elf_data - print ELF data
+ * elf_donne - print ELF data
  * @buffer: the ELF header
  *
  * Return: 1 if big endian, otherwise 0
  */
-int elf_data(const unsigned char *buffer)
+int elf_donne(const unsigned char *buffer)
 {
 	printf("  %-34s ", "Data:");
 
@@ -139,10 +139,10 @@ void elf_version(const unsigned char *buffer)
 }
 
 /**
- * elf_osabi - print ELF OS/ABI
+ * elf_jobs - print ELF OS/ABI
  * @buffer: the ELF header
  */
-void elf_osabi(const unsigned char *buffer)
+void elf_jobs(const unsigned char *buffer)
 {
 	const char *os_table[19] = {
 		"UNIX - System V",
@@ -175,20 +175,20 @@ void elf_osabi(const unsigned char *buffer)
 }
 
 /**
- * elf_abivers - print ELF ABI version
+ * elf_divers - print ELF ABI version
  * @buffer: the ELF header
  */
-void elf_abivers(const unsigned char *buffer)
+void elf_divers(const unsigned char *buffer)
 {
 	printf("  %-34s %u\n", "ABI Version:", buffer[EI_ABIVERSION]);
 }
 
 /**
- * elf_type - print ELF type
+ * elf_category - print ELF type
  * @buffer: the ELF header
  * @big_endian: endianness (big endian if non-zero)
  */
-void elf_type(const unsigned char *buffer, int big_endian)
+void elf_category(const unsigned char *buffer, int big_endian)
 {
 	char *type_table[5] = {
 		"NONE (No file type)",
@@ -217,12 +217,12 @@ void elf_type(const unsigned char *buffer, int big_endian)
 }
 
 /**
- * elf_entry - print entry point address
+ * elf_Entree - print entry point address
  * @buffer: string containing the entry point address
  * @bit_mode: bit mode (32 or 64)
  * @big_endian: endianness (big endian if non-zero)
  */
-void elf_entry(const unsigned char *buffer, size_t bit_mode, int big_endian)
+void elf_Entree(const unsigned char *buffer, size_t bit_mode, int big_endian)
 {
 	int address_size = bit_mode / 8;
 
@@ -281,22 +281,22 @@ int main(int argc, const char *argv[])
 		exit(98);
 	}
 
-	_read(fd, (char *) buffer, 18);
+	_inuma(fd, (char *) buffer, 18);
 
-	elf_magic(buffer);
+	elf_inka(buffer);
 	bit_mode = elf_class(buffer);
 	big_endian = elf_data(buffer);
 	elf_version(buffer);
-	elf_osabi(buffer);
-	elf_abivers(buffer);
-	elf_type(buffer, big_endian);
+	elf_jobs(buffer);
+	elf_divers(buffer);
+	elf_category(buffer, big_endian);
 
 	lseek(fd, 24, SEEK_SET);
-	_read(fd, (char *) buffer, bit_mode / 8);
+	_inuma(fd, (char *) buffer, bit_mode / 8);
 
-	elf_entry(buffer, bit_mode, big_endian);
+	elf_Entree(buffer, bit_mode, big_endian);
 
-	_close(fd);
+	_ipusi(fd);
 
 	return (0);
 }
