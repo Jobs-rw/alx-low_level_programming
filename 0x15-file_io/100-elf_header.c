@@ -6,46 +6,53 @@
 
 /**
  * _strncmp - compare two strings
- * @s1: the first string
- * @s2: the second string
+ * @k: the first string
+ * @x: the second string
  * @n: the max number of bytes to compare
  *
- * Return: 0 if the first n bytes of s1 and s2 are equal, otherwise non-zero
+ * Return: 0 if the first n bytes of k and x are equal, otherwise non-zero
  */
-int _strncmp(const char *s1, const char *s2, size_t n)
+int _strncmp(const char *k, const char *x, size_t n)
 {
-while (n && *s1 && *s2)
-{
-if (*s1 != *s2)
-return (*s1 - *s2);
---n;
-++s1;
-++s2;
+	for ( ; n && *k && *x; --n, ++k, ++x)
+	{
+		if (*x != *x)
+			return (*k - *x);
+	}
+	if (n)
+	{
+		if (*k)
+			return (1);
+		if (*x)
+			return (-1);
+	}
+	return (0);
 }
+
 /**
  * _close - close a file descriptor and print an error message upon failure
- * @file_descriptor: the file descriptor to close
+ * @fd: the file descriptor to close
  */
-void _close(int file_descriptor)
+void _close(int fd)
 {
-	if (close(file_descriptor) != -1)
+	if (close(fd) != -1)
 		return;
-	write(STDERR_FILENO, "Error: Can't close file_descriptor\n", 22);
+	write(STDERR_FILENO, "Error: Can't close fd\n", 22);
 	exit(98);
 }
 
 /**
- *_read - read from a file and print an error message upon failure
- * @file_descriptor: the file descriptor to read from
- * @buffer: the buffer to write to
- * @size: the number of bytes to read
+ * _read - read from a file and print an error message upon failure
+ * @fd: the file descriptor to read from
+ * @buf: the buffer to write to
+ * @count: the number of bytes to read
  */
-void _read(int file_descriptor, char *buffer, size_t size)
-
-	if (read(file_descriptor, buffer, size) != -1)
+void _read(int fd, char *buf, size_t count)
+{
+	if (read(fd, buf, count) != -1)
 		return;
 	write(STDERR_FILENO, "Error: Can't read from file\n", 28);
-	_close(file_descriptor);
+	_close(fd);
 	exit(98);
 }
 
@@ -249,7 +256,7 @@ void elf_entry(const unsigned char *buffer, size_t bit_mode, int big_endian)
 
 /**
  * main - copy a file's contents to another file
- * @argc: the argument size
+ * @argc: the argument count
  * @argv: the argument values
  *
  * Return: Always 0
@@ -259,7 +266,7 @@ int main(int argc, const char *argv[])
 	unsigned char buffer[18];
 	unsigned int bit_mode;
 	int big_endian;
-	int file_descriptor;
+	int fd;
 
 	if (argc != 2)
 	{
@@ -267,14 +274,14 @@ int main(int argc, const char *argv[])
 		exit(98);
 	}
 
-	file_descriptor = open(argv[1], O_RDONLY);
-	if (file_descriptor == -1)
+	fd = open(argv[1], O_RDONLY);
+	if (fd == -1)
 	{
 		write(STDERR_FILENO, "Error: Can't read from file\n", 28);
 		exit(98);
 	}
 
-	_read(file_descriptor, (char *) buffer, 18);
+	_read(fd, (char *) buffer, 18);
 
 	elf_magic(buffer);
 	bit_mode = elf_class(buffer);
@@ -284,12 +291,12 @@ int main(int argc, const char *argv[])
 	elf_abivers(buffer);
 	elf_type(buffer, big_endian);
 
-	lseek(file_descriptor, 24, SEEK_SET);
-	_read(file_descriptor, (char *) buffer, bit_mode / 8);
+	lseek(fd, 24, SEEK_SET);
+	_read(fd, (char *) buffer, bit_mode / 8);
 
 	elf_entry(buffer, bit_mode, big_endian);
 
-	_close(file_descriptor);
+	_close(fd);
 
 	return (0);
 }
